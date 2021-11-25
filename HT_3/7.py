@@ -18,5 +18,8 @@ def calc(x, oper, y):
         return x // y
     elif oper == "**":
         return x ** y
-equation = input("Enter your equation: ").split()
-print(calc(equation[0], equation[1], equation[2]))
+
+num_1 = input("Enter 1st number: ").strip()
+num_2 = input("Enter 2nd number: ").strip()
+operation = input("Enter operation: ").strip()
+print(calc(num_1, operation, num_2))
