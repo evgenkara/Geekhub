@@ -11,11 +11,20 @@ def calc(x, oper, y):
     elif oper == "*":
         return x * y
     elif oper == "/":
-        return x / y
+        if y != 0:
+            return x / y
+        else:
+            return "Cannot be divided by zero"
     elif oper == "%":
-        return x % y
+        if y != 0:
+            return x % y
+        else:
+            return "Cannot be divided by zero"
     elif oper == "//":
-        return x // y
+        if y != 0:
+            return x // y
+        else:
+            return "Cannot be divided by zero"
     elif oper == "**":
         return x ** y
 
