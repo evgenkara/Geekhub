@@ -5,7 +5,6 @@ P.S. Повинен вертатись генератор.
 
 
 def myrange(start, stop, step = 1):
-    r = iter([start])
     if step > 0:
         while start < stop:
             yield start
@@ -14,8 +13,9 @@ def myrange(start, stop, step = 1):
         while start > stop:
             yield start
             start += step
+    elif step == 0:
+        raise ValueError
 
-ran = myrange(15, 0, -5)
-print(ran)
+ran = myrange(15, 0, -1)
 for i in ran:
     print(i)
