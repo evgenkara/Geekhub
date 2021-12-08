@@ -1,0 +1,4 @@
+{"transaction": "replenish", "previous": 50000, "new": 55000}
+{"transaction": "withdraw", "previous": 55000, "new": 52000}
+{"transaction": "withdraw", "previous": 52000, "new": 42000}
+{"transaction": "withdraw", "previous": 42000, "new": 32000}
