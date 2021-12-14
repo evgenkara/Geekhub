@@ -65,7 +65,7 @@ def withdraw_balance(num):
                 break
             elif key + sum(wit_banknotes) <= num and banknotes_load[str(key)] > 0:
                 for k in keys:
-                    if (num - sum(wit_banknotes) - key) % k == 0:
+                    if (num - sum(wit_banknotes) - key) % k == 0 and banknotes_load[str(k)] > 0:
                         wit_banknotes.append(key)
                         banknotes_load[str(key)] -= 1
                         skip = True
