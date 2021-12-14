@@ -2,6 +2,10 @@ import json
 import sys
 
 
+class BankException(Exception):
+    pass
+
+
 def validate(user_name, user_password):
     valid = False
     is_admin = False
@@ -50,18 +54,29 @@ def withdraw_balance(num):
     with open("banknotes.json", "r+") as banknotes_change:
         banknotes_load = json.load(banknotes_change)
         keys = list(map(int, banknotes_load.keys()))
-        dic = {}
-        new_bank = {}
-        for key, val in zip(keys, banknotes_load.values()):
-            if num >= key:
-                dic[key] = num // key
-                val -= num // key
-                num -= dic[key] * key
-            new_bank[key] = val
+    wit_banknotes = []
+    counter = 0
+    while sum(wit_banknotes) < num:
+        skip = False
+        if counter + 1 > len(keys):
+            raise BankException
+        for key in keys:
+            if skip:
+                break
+            elif key + sum(wit_banknotes) <= num and banknotes_load[str(key)] > 0:
+                for k in keys:
+                    if (num - sum(wit_banknotes) - key) % k == 0:
+                        wit_banknotes.append(key)
+                        banknotes_load[str(key)] -= 1
+                        skip = True
+                        break
+        counter += 1
 
+    a = list(set(wit_banknotes))
+    a.sort()
     with open("banknotes.json", "w") as banknotes_change:
-        json.dump(new_bank, banknotes_change)
-    print(f"Given banknotes: {dic}")
+        json.dump(banknotes_load, banknotes_change)
+    return f"Given banknotes: {wit_banknotes}"
 
 
 def withdraw(user_name):
@@ -78,7 +93,11 @@ def withdraw(user_name):
             with open(f"{user_name}_balance.txt", "w") as balance:
                 balance.write(str(balance_new))
             add_transaction(user_name, currency, balance_new)
-            print(withdraw_balance(wit))
+            try:
+                print(withdraw_balance(wit))
+            except BankException:
+                w = int(input("Not enough banknotes in ATM. Please, enter another value\n: "))
+                print(withdraw_balance(w))
         else:
             print(f"Not enough money in the ATM. Now in stock: {bank_sum}")
     else:
@@ -101,6 +120,8 @@ def register():
             data.append(reg_data)
             with open("users_data.json", "w") as write_data:
                 json.dump(data, write_data)
+            with open(f"{reg_name}_balance.txt", "w") as balance, open(f"{reg_name}_transactions.json", "w") as transactions:
+                balance.write("0")
         else:
             print("Username is already occupied")
 
