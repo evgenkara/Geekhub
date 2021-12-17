@@ -19,6 +19,8 @@ def create_tables():
                     username text, 
                     user_balance integer, 
                     FOREIGN KEY (id) REFERENCES users(id))''')
+    cur.execute('''CREATE TABLE IF NOT EXISTS users_transactions (id integer, username text, operation text, 
+                    before integer, after integer, FOREIGN KEY (id) REFERENCES users(id))''')
     cur.execute('''CREATE TABLE IF NOT EXISTS banknotes (key integer PRIMARY KEY, banknote integer, amount integer )''')
     con.commit()
 
@@ -55,8 +57,10 @@ def add_transaction(user_name, old_bal, new_bal):
         transaction = "deposit"
     else:
         transaction = "withdraw"
-    cur.execute(f"CREATE TABLE IF NOT EXISTS {user_name}_transactions (operation text, before integer, after integer)")
-    cur.execute(f"INSERT INTO {user_name}_transactions VALUES (?, ?, ?)", (transaction, old_bal, new_bal))
+    cur.execute("SELECT id FROM users WHERE username = ?", (user_name,))
+    user_id = cur.fetchone()[0]
+    cur.execute(f"INSERT INTO users_transactions VALUES (?, ?, ?, ?, ?)", (user_id, user_name,
+                                                                           transaction, old_bal, new_bal))
     con.commit()
 
 
