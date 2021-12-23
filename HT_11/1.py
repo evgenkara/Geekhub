@@ -32,7 +32,6 @@ def user_posts(user_id):
         r = requests.get("https://jsonplaceholder.typicode.com/posts", {'userId': user_id})
         for post in r.json():
             print(f"id: {post['id']}  title: {post['title']}")
-        user_posts(user_id)
     elif option == '2':
 
         post_id = int(input("Enter post id: "))
@@ -45,11 +44,11 @@ def user_posts(user_id):
             result = {'id': post['id'], 'title': post['title'], 'text': post['body'],
                       'comments': len(comment_ids), 'comment_ids': comment_ids}
             pprint(result, sort_dicts=False)
-        user_posts(user_id)
     elif option == '3':
         sys.exit()
     else:
         print("Wrong input")
+    user_posts(user_id)
 
 
 def todo_list(user_id):
@@ -66,8 +65,6 @@ def todo_list(user_id):
         for task in r.json():
             completed.append(task["title"])
         return completed
-    else:
-        print("Wrong input")
 
 
 def get_url():
@@ -87,8 +84,11 @@ def user_menu(user_id):
     elif action == "2":
         user_posts(user_id)
     elif action == "3":
-        for todo in todo_list(user_id):
-            pprint(todo)
+        try:
+            for todo in todo_list(user_id):
+                pprint(todo)
+        except TypeError:
+            print("Wrong input")
     elif action == "4":
         print(get_url())
     elif action == "5":
