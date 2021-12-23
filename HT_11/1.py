@@ -1,7 +1,6 @@
 import requests
 import random
 import sys
-from pprint import pprint
 
 
 def get_users():
@@ -23,7 +22,8 @@ def user_info(user_id):
     r = requests.get("https://jsonplaceholder.typicode.com/users")
     for user in r.json():
         if user["id"] == user_id:
-            pprint(user, sort_dicts=False)
+            for key, val in zip(user.keys(), user.values()):
+                print(f"{key} : {val}")
 
 
 def user_posts(user_id):
@@ -42,7 +42,8 @@ def user_posts(user_id):
                 comment_ids.append(comment["id"])
             result = {'id': post['id'], 'title': post['title'], 'text': post['body'],
                       'comments': len(comment_ids), 'comment_ids': comment_ids}
-            pprint(result, sort_dicts=False)
+            for key, val in zip(result.keys(), result.values()):
+                print(f"{key}: {val}")
     elif option == '3':
         sys.exit()
     else:
@@ -90,8 +91,10 @@ def user_menu(user_id):
         user_posts(user_id)
     elif action == "3":
         try:
+            count = 1
             for todo in todo_list(user_id):
-                pprint(todo)
+                print(f"{count}) {todo}")
+                count += 1
         except TypeError:
             print("Wrong input")
     elif action == "4":
@@ -108,9 +111,11 @@ def start():
     get_users()
     user = int(input("Enter user id: "))
     if validate_user(user):
-        user_menu(user)
+        while True:
+            user_menu(user)
     else:
-        print("Wrong id")
+        print("Wrong id. Please, try again")
+        start()
 
 
 start()
