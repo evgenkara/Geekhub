@@ -33,7 +33,6 @@ def user_posts(user_id):
         for post in r.json():
             print(f"id: {post['id']}  title: {post['title']}")
     elif option == '2':
-
         post_id = int(input("Enter post id: "))
         posts = requests.get("https://jsonplaceholder.typicode.com/posts", {'id': post_id})
         comments = requests.get("https://jsonplaceholder.typicode.com/comments", {'postId': post_id})
@@ -55,24 +54,30 @@ def todo_list(user_id):
     option = input("Choose action:\n1. Get uncompleted tasks\n2. Get completed tasks\n: ")
     if option == '1':
         uncompleted = []
-        r = requests.get("https://jsonplaceholder.typicode.com/todos", {"userId": user_id, "completed": "false"})
-        for task in r.json():
+        req = requests.get("https://jsonplaceholder.typicode.com/todos", {"userId": user_id, "completed": "false"})
+        for task in req.json():
             uncompleted.append(task["title"])
         return uncompleted
     elif option == '2':
         completed = []
-        r = requests.get("https://jsonplaceholder.typicode.com/todos", {"userId": user_id, "completed": "true"})
-        for task in r.json():
+        req = requests.get("https://jsonplaceholder.typicode.com/todos", {"userId": user_id, "completed": "true"})
+        for task in req.json():
             completed.append(task["title"])
         return completed
 
 
-def get_url():
+def get_url(user_id):
+    albums = []
+    for album in requests.get("https://jsonplaceholder.typicode.com/albums", {"userId": user_id}).json():
+        albums.append(album["id"])
+    img_ids = []
     imgs = requests.get("https://jsonplaceholder.typicode.com/photos")
-    max_id = max(imgs.json(), key=lambda item: item['id'])
-    img_id = random.randint(1, max_id['id'])
+    for image in imgs.json():
+        if image["albumId"] in albums:
+            img_ids.append(image["id"])
+    rand_id = random.choice(img_ids)
     for img in imgs.json():
-        if img['id'] == img_id:
+        if img['id'] == rand_id:
             return img['url']
 
 
@@ -90,7 +95,7 @@ def user_menu(user_id):
         except TypeError:
             print("Wrong input")
     elif action == "4":
-        print(get_url())
+        print(get_url(user_id))
     elif action == "5":
         sys.exit()
     else:
