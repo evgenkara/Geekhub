@@ -3,6 +3,24 @@ import random
 import sys
 
 
+def wrapper(func):
+    def wrap(*args, **kwargs):
+        size = 60
+        result = func(*args, **kwargs)
+        print('-' * size)
+        return result
+    return wrap
+
+
+def print_json(data, indent=0):
+    for key, value in data.items():
+        if isinstance(value, dict):
+            print('\t' * indent + f"{key}:")
+            print_json(value, indent + 1)
+        else:
+            print("\t" * indent + f"{key}: {value}")
+
+
 def get_users():
     r = requests.get("https://jsonplaceholder.typicode.com/users")
     for user in r.json():
@@ -22,33 +40,32 @@ def user_info(user_id):
     r = requests.get("https://jsonplaceholder.typicode.com/users")
     for user in r.json():
         if user["id"] == user_id:
-            for key, val in zip(user.keys(), user.values()):
-                print(f"{key} : {val}")
+            print_json(user)
 
 
 def user_posts(user_id):
-    option = input("Choose action:\n1. Get user posts\n2. Get post by id\n3. Exit\n: ")
-    if option == '1':
-        r = requests.get("https://jsonplaceholder.typicode.com/posts", {'userId': user_id})
-        for post in r.json():
-            print(f"id: {post['id']}  title: {post['title']}")
-    elif option == '2':
-        post_id = int(input("Enter post id: "))
-        posts = requests.get("https://jsonplaceholder.typicode.com/posts", {'id': post_id})
-        comments = requests.get("https://jsonplaceholder.typicode.com/comments", {'postId': post_id})
-        comment_ids = []
-        for post in posts.json():
-            for comment in comments.json():
-                comment_ids.append(comment["id"])
-            result = {'id': post['id'], 'title': post['title'], 'text': post['body'],
-                      'comments': len(comment_ids), 'comment_ids': comment_ids}
-            for key, val in zip(result.keys(), result.values()):
-                print(f"{key}: {val}")
-    elif option == '3':
-        sys.exit()
-    else:
-        print("Wrong input")
-    user_posts(user_id)
+    while True:
+        option = input("Choose action:\n1. Get user posts\n2. Get post by id\n3. Back to main menu\n: ")
+        if option == '1':
+            r = requests.get("https://jsonplaceholder.typicode.com/posts", {'userId': user_id})
+            for post in r.json():
+                print(f"id: {post['id']}  title: {post['title']}")
+        elif option == '2':
+            post_id = int(input("Enter post id: "))
+            posts = requests.get("https://jsonplaceholder.typicode.com/posts", {'id': post_id})
+            comments = requests.get("https://jsonplaceholder.typicode.com/comments", {'postId': post_id})
+            comment_ids = []
+            for post in posts.json():
+                for comment in comments.json():
+                    comment_ids.append(comment["id"])
+                result = {'id': post['id'], 'title': post['title'], 'text': post['body'],
+                          'comments': len(comment_ids), 'comment_ids': comment_ids}
+                for key, val in zip(result.keys(), result.values()):
+                    print(f"{key}: {val}")
+        elif option == '3':
+            break
+        else:
+            print("Wrong input")
 
 
 def todo_list(user_id):
@@ -82,6 +99,7 @@ def get_url(user_id):
             return img['url']
 
 
+@wrapper
 def user_menu(user_id):
     action = input("Choose action:\n1. Get user info\n2. Get posts\n3. Get ToDo list\n4. Get picture URL\n"
                    "5. Exit\n: ")
