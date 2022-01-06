@@ -7,7 +7,7 @@ class SomeClass(object):
     count = 0
 
     def __init__(self):
-        type(self).count += 1
+        self.__class__.count += 1
 
 
 a = SomeClass()
