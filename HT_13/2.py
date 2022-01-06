@@ -6,20 +6,16 @@
 
 
 class Person(object):
-    def __init__(self, **kwargs):
+    def __init__(self, name, age, **kwargs):
+        self.name = name
+        self.age = age
         self.__dict__.update(kwargs)
 
     def show_age(self):
-        try:
-            print(f"{self.name} is {self.age} years old")
-        except AttributeError:
-            print("Person age is not defined")
+        print(f"{self.name} is {self.age} years old")
 
     def print_name(self):
-        try:
-            print(f"Hello! My name is {self.name}")
-        except AttributeError:
-            print("Person name is not defined")
+        print(f"Hello! My name is {self.name}")
 
     def show_all_info(self):
         for key in self.__dict__.keys():
@@ -33,4 +29,3 @@ person1.show_all_info()
 person2 = Person(name="Vasya", age=35)
 person2.profession = "Builder"
 person2.show_age()
-
