@@ -42,13 +42,16 @@ class Calc(object):
         Divides x by y
         """
         self.last_result = self.result
-        self.result = x / y
+        if y != 0:
+            self.result = x / y
+        else:
+            self.result = "Can't divide by 0"
 
 
 c = Calc()
 c.add(12, 3)
 print(c.last_result)
-c.add(12, 14)
+c.divide(12, 0)
 print(c.last_result)
 c.divide(15, 3)
 print(c.last_result)
