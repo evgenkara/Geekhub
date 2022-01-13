@@ -1,3 +1,8 @@
+"""
+Переписати останню версію банкомата з використанням ООП
+"""
+
+
 import requests
 import sqlite3
 import sys
