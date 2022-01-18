@@ -19,6 +19,8 @@
     - клієнт буде запускати бота через термінал командою "scrapy crawl назва_скрейпера"
 """
 
+
+import csv
 import datetime
 import urllib.request
 
@@ -68,8 +70,16 @@ class NewsSpider(scrapy.Spider):
         for post in soup.select('.item-cat-post'):
             page = post.select_one('.more-link-style').get('href')
             news_data = self.parse_page(page)
-            news_data.update({'url': page})
             yield news_data
+        try:
+            next_page = (soup.select_one('.next')).get('href')
+            if next_page:
+                yield scrapy.Request(
+                    url=next_page,
+                    callback=self.parse_news
+                )
+        except AttributeError:
+            print("Completed")
 
     def parse_page(self, url):
         """
@@ -81,13 +91,11 @@ class NewsSpider(scrapy.Spider):
         soup = BeautifulSoup(data.read(), 'lxml')
         fulltext = ""
         tags = [f'#{tag.text}' for tag in soup.select('.post-tag')]
-        for item in soup.select('.entry-content div'):
-            fulltext += ' ' + item.text
-        if len(fulltext) <= 1:
-            for item in soup.select('.entry-content p'):
-                fulltext += ' ' + item.text
+        for item in soup.select('.entry-content *:not(.read-link):not(a)'):
+            fulltext += (' ' + item.text).strip()
         return {
             'title': soup.select_one('.post-title').text,
-            'text': fulltext.replace("\xa0", ""),
+            'text': fulltext.replace("\xa0", " ").strip(),
             'tags': ", ".join(tags),
+            'url': url
         }
