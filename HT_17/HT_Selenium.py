@@ -11,8 +11,7 @@ url = "https://docs.google.com/forms/d/e/1FAIpQLScLhHgD5pMnwxl8JyRfXXsJekF8_pDG3
 try:
     driver.get(url)
     wait = WebDriverWait(driver, 10)
-    input_field = driver.find_element(By.CLASS_NAME, 'exportInput')
-    wait.until(EC.element_to_be_clickable(input_field))
+    input_field = wait.until(EC.element_to_be_clickable((By.CLASS_NAME, 'exportInput')))
     input_field.send_keys('Sasha')
     input_div = driver.find_element(By.CSS_SELECTOR, 'div[role="list"]')
     input_div.screenshot('input.png')
