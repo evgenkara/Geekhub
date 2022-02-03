@@ -17,7 +17,7 @@ def set_fields(model_fields, item):
 
 
 def index(request):
-    submitbutton = request.POST.get("submit")
+    submit_button = request.POST.get("submit")
     story = ''
 
     form = UserForm(request.POST or None)
@@ -30,20 +30,11 @@ def index(request):
             for field in dict_fields:
                 if field in scraped_story.keys():
                     scraped_story.pop(field)
-            print(scraped_story)
-            if story == 'jobstories':
-                model_fields = set_fields(Job._meta.fields, scraped_story)
-                Job.objects.create(**model_fields)
-            elif story == 'showstories':
-                model_fields = set_fields(Show._meta.fields, scraped_story)
-                Show.objects.create(**model_fields)
-            elif story == 'newstories':
-                model_fields = set_fields(New._meta.fields, scraped_story)
-                New.objects.create(**model_fields)
-            elif story == 'askstories':
-                model_fields = set_fields(Ask._meta.fields, scraped_story)
-                Ask.objects.create(**model_fields)
+            categories_available = {'askstories': Ask, 'showstories': Show, 'newstories': New, 'jobstories': Job}
+            model_category = categories_available[story]
+            model_fields = set_fields(model_category._meta.fields, scraped_story)
+            model_category.objects.create(**model_fields)
 
-    context = {'form': form, 'story': story, 'submitbutton': submitbutton}
+    context = {'form': form, 'story': story, 'submitbutton': submit_button}
 
     return render(request, 'stories/index.html', context)
