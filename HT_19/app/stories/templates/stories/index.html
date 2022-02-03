@@ -1,7 +1,0 @@
-<form action="" method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="Submit" name="submit" value="Submit"/>
-</form>
-{% if submitbutton == "Submit" %}
-<h3> Scraping completed. Scraped category: {{ story }} </h3>
-{% endif %}
