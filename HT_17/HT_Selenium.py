@@ -1,3 +1,11 @@
+"""
+Завдання: за допомогою браузера (Selenium) відкрити форму за наступним посиланням:
+https://docs.google.com/forms/d/e/1FAIpQLScLhHgD5pMnwxl8JyRfXXsJekF8_pDG36XtSEwaGsFdU2egyw/viewform?usp=sf_link
+заповнити і відправити її.
+Зберегти два скріншоти: заповненої форми і повідомлення про відправлення форми.
+В репозиторії скріншоти зберегти.
+"""
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
