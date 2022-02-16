@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'shop/styles.css' %}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}My shop{% endblock %}</title>
+</head>
+<body>
+<div id="header">
+    <a href="/" class="logo">My shop</a>
+    <div class="login">
+        {% block login %}
+        {% if user.is_authenticated %}
+            <p>{{ user.username }}</p>
+            <p><a href="{% url 'logout' %}?next={{ request.path | urlencode }}">Log Out</a></p>
+        {% else %}
+            <p><a href="{% url 'shop:login' %}">Log In</a></p>
+        {% endif %}
+        {% endblock %}
+    </div>
+</div>
+
+<div class="cart">
+    {% if user.is_authenticated %}
+    {% with total_items=cart|length %}
+        {% if cart|length > 0 %}
+            Your cart:
+            <a href="{% url 'cart:cart_detail' %}">
+                {{ total_items }} item{{ total_items|pluralize }},
+                ${{ cart.get_total_price }}
+            </a>
+        {% else %}
+            Your cart is empty.
+        {% endif %}
+    {% endwith %}
+    {% endif %}
+</div>
+<div id="content">
+    {% block content %}
+    {% endblock %}
+</div>
+</body>
+</html>
