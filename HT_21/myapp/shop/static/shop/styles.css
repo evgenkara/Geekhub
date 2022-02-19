@@ -1,0 +1,52 @@
+*{
+    font-size: 18px;
+}
+
+.logo{
+    font-size: 45px;
+}
+
+
+a:link, a:active{
+    color: black;
+    text-decoration: none;
+}
+
+.product-list{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.item{
+    padding: 2%;
+    flex: 1 16%;
+    display: flex;
+}
+
+.product-image img {
+    max-width: 90%;
+}
+
+.product-info{
+    margin-top: auto;
+}
+
+.login{
+    float: right;
+}
+
+.login p{
+    display: inline;
+    font-size: 24px;
+}
+
+#sidebar li{
+    display: inline;
+    padding: 2%;
+    flex-grow: 1;
+    flex-basis: 16%;
+}
+
+.item a{
+    margin: 1em;
+}

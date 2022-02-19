@@ -1,0 +1,52 @@
+{% extends "shop/base.html" %}
+{% load static %}
+{% block title %}
+    {% if category %}{{ category.title }}{% else %}Products{% endif %}
+{% endblock %}
+{% block content %}
+    <div class="product-detail">
+        <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}">
+        <h1>{{ product.name }}</h1>
+        <h2><a href="{{ product.category.get_absolute_url }}">{{ product.category }}</a></h2>
+        <p class="price">${{ product.price }}</p>
+        {% if user.is_authenticated %}
+            <form class="add_btn" method="post">
+                {{ cart_product_form }}
+                {% csrf_token %}
+                 <input type="submit" data-id="{{ product.id }}" quantity = "{{ product.stock }}"
+                        class="Id_submit" value="Add To Cart">
+            </form>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            <script type="text/javascript">
+                var csrfToken = "{{ csrf_token }}";
+                $(document).ready(function(){
+                    $('.Id_submit').on('click', function(e){
+                        e.preventDefault();
+                        var product_id = $(this).attr('data-id')
+                        var formData = new FormData(document.querySelector('form'))
+                        var quant = formData.get('quantity')
+                        var data = {
+                            product_id: product_id,
+                            quantity: quant,
+                            csrfmiddlewaretoken: csrfToken,
+                        }
+
+                        $.ajax({
+                            type: 'POST',
+                            url: "{% url 'cart:cart_add' product.id %}",
+                            data: data,
+                            success: function(){
+                                alert("Product added to cart");
+                            }
+                        })
+                    })
+                });
+            </script>
+        {% endif %}
+        {{ product.description|linebreaks }}
+    </div>
+    {% if request.user.is_superuser %}
+        <p><a href="{% url 'shop:product_edit' product.pk %}">+ Edit Product</a></p>
+        <p><a href="{% url 'shop:product_delete' product.pk %}">+ Delete Product</a></p>
+    {% endif %}
+{% endblock %}
