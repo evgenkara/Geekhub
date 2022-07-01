@@ -1,0 +1,3 @@
+web: gunicorn final_proj.wsgi --log-file -
+
+relase: python manage.py migrate
