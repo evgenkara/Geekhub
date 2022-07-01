@@ -1,0 +1,336 @@
+*{
+    color: azure;
+    font-size: 0.9vw;
+}
+
+body{
+    background: black;
+    height:100%;
+    display:grid;
+    grid-template-rows: auto 1fr auto;
+    min-height:100vh;
+    margin: 0;
+}
+
+main *{
+    display: block;
+}
+
+footer{
+    position: relative;
+}
+
+h2{
+    margin-top: 2.5vh;
+    margin-bottom: 2.5vh;
+}
+
+form{
+    margin: 5px;
+    display: block;
+    color: black;
+}
+
+form *{
+    margin-top: 10px;
+}
+
+.logo{
+    height: 5.6vh;
+}
+
+.footer-text{
+    font-size: 0.7vw;
+}
+
+.privacy-text .about-list li{
+    display: list-item;
+    list-style: circle inside;
+}
+
+.text-end a p{
+    font-size: 1vw;
+}
+
+.nav-link{
+    padding-left: 0;
+}
+
+.nav-link:hover, a:hover{
+    color: gold;
+}
+
+.nav-link, a{
+    color: azure;
+    text-decoration: none;
+}
+
+.social{
+    width: 1.3vw;
+    height: 2.5vh;
+}
+
+.banner{
+    height: 75vh;
+    object-position: center top;
+    object-fit: contain;
+}
+
+.pagination{
+    margin-top: 5vh;
+}
+
+.pagination-link, .current{
+    font-size: 1.2vw;
+}
+
+.card{
+    height: 60vh;
+}
+
+.card-img-top{
+    height:80%;
+}
+
+.card-body{
+    padding-right: 0;
+    padding-left: 0.5vw;
+    padding-top: 1vh;
+    height: 20%;
+}
+
+.card-title{
+    height: 100%;
+    font-size: 1vw;
+}
+
+.watch-movie{
+    height: 50%;
+    margin-bottom: 2vh;
+}
+
+.google-login *{
+    display: inline;
+    margin-bottom: 1.5vh;
+}
+
+.google-img{
+    width: 1vw;
+    margin-bottom: 0.3vh;
+    margin-right: 0.2vw;
+}
+
+.movie-list{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.movie-detail *{
+    margin-bottom: 2vh;
+}
+
+.categories a{
+    font-size: 0.8vw;
+}
+
+.categories a:hover{
+    color: azure;
+    background-color: #b8b8b8;
+}
+
+.account-media img{
+    width: 18vw;
+    height: 46vh;
+}
+
+.movie-media img{
+    width: 14.5vw;
+    height: 49vh;
+    margin-right: 0.8vw;
+}
+
+.trailer{
+    width: 70%;
+}
+
+.soon-media img{
+    width: 30%;
+    height: 100%;
+}
+
+.year{
+    font-size: 0.9vw;
+}
+
+.links{
+    margin-left: 2vw;
+}
+
+.rounded-pill{
+    width: 5vw;
+}
+
+.item{
+    display: flex;
+    flex-direction: row;
+    width: 15.6vw;
+    padding: 15px;
+    border: 1px solid gray;
+
+}
+
+.image-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.movie-image, .movie-image a{
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.movie-image a img{
+    width: 100%;
+    height: 100%;
+    object-position: center;
+    object-fit: contain;
+}
+
+.movie-text{
+    margin-top: 0.5vh;
+    margin-left: 0.7vw;
+    width: 100%;
+}
+
+.movie-title{
+    object-position: center;
+}
+
+.log-in a, p{
+    display: inline;
+    color: azure;
+    font-size: 1.25vw;
+}
+
+.dropdown li{
+    display: inline;
+    padding: 2%;
+    flex-grow: 1;
+    flex-basis: 16%;
+}
+
+.btn{
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.account-img{
+    cursor: pointer;
+    max-width: 26vw;
+    max-height: 50rem;
+}
+
+.form-control{
+    width: 20vw;
+    color: black;
+}
+
+.menu {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 25px;
+    cursor: pointer;
+}
+
+/* style for the button */
+.menu:before {
+    content: "\2630 \a0 Категорії";
+    color:white;
+    border-radius:3px;
+}
+
+.menu:focus { pointer-events:none; }
+
+/* If :focus detected the dropdown menu is displayed by making it visible */
+.menu:focus .menu-dropdown { opacity:1; visibility:visible; }
+
+/* style for the dropdown box */
+.menu-dropdown {
+    width: auto;
+    background: gray;
+    padding: 10px;
+    border-radius:3px;
+    border:1px black solid;
+    pointer-events: auto;
+    position: absolute;
+    z-index: 1;
+    opacity: 0;
+    visibility: hidden;
+    transition: visibility 1s;
+}
+
+/* style the links in the dropdown */
+.menu-dropdown a {
+    background:transparent;
+    border:none;
+    outline:0;
+    display:block;
+    color:white;
+    width:160px;
+    padding:5px;
+}
+
+.privacy-text ul{
+    list-style: none
+}
+.privacy-text ul li{
+    margin-bottom: 15px;
+}
+
+.privacy-text li{
+    display: list-item;
+}
+
+.close{
+    color: black;
+    size: 16px;
+}
+
+.form-err{
+    color: red; font-size: 14px;
+}
+
+select{
+    width: 3vw;
+    height: 4.8vh;
+    background-color: black;
+}
+
+.comment-body{
+    overflow-y: auto;
+}
+
+.ratings-card{
+    height: 85vh;
+}
+
+.ratings-card img{
+    height: 70%;
+}
+
+.rating-name{
+    height: 30%;
+}
+
+.rating{
+    height: 70%;
+    display: flex;
+}
+
+.star-ratings{
+    display: inline-block;
+    align-self: flex-end;
+    margin-bottom: 5vh;
+}

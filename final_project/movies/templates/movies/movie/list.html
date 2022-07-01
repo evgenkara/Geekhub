@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% load embed_video_tags %}
+{% block title %}Uamovies{% endblock %}
+{% block content %}
+    <div tabindex="0" class="menu">
+        <div class="menu-dropdown">
+            <a href="{% url 'movies:movie_list_by_category' category_slug='all' %}">Всі фільми</a>
+            {% for c in categories %}
+                <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+            {% endfor %}
+        </div>
+    </div>
+    {% if rand_soon %}
+        <div class="bg-dark">
+            <a href="{{ rand_soon.get_absolute_url }}" class="soon-media d-flex flex-row justify-content-start">
+                <img src="{{rand_soon.image.url}}" class="d-flex justify-content-start">
+                <div class="trailer d-flex">
+                    {% if rand_soon.trailer %}
+                        {% video rand_soon.trailer '100% x 100%' is_secure=True %}
+                    {% endif %}
+                </div>
+            </a>
+            <h3 class="mx-2 pb-3">{{ rand_soon.name|linebreaks }}</h3>
+            <a class="mx-2 pb-3" href="{{ rand_soon.get_absolute_url }}">На сторінку фільма</a>
+        </div>
+    {% endif %}
+    <div id="main" class="movie-list">
+        {% if movies_ua %}
+        <h2>Українські фільми</h2>
+        <div id="glider-1" class="glider-contain">
+            <div class="glider">
+                {% for movie in movies_ua %}
+                    <div class="item">
+                        <div class="image-container">
+                            <div class="movie-image">
+                                <a href="{{ movie.get_absolute_url }}">
+                                    <img src="{{ movie.image.url }}">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="movie-text">
+                            <a href="{{ movie.get_absolute_url }}" class="movie-title text-center">
+                                {{ movie.name }}
+                            </a>
+                        </div>
+                    </div>
+            {% endfor %}
+            </div>
+            <button aria-label="Previous" class="glider-prev">«</button>
+            <button aria-label="Next" class="glider-next">»</button>
+        </div>
+        {% endif %}
+        {% if soon %}
+        <h2>Найочікуваніші прем'єри</h2>
+        <div id="glider-2" class="glider-contain">
+            <div class="glider">
+                {% for movie in soon %}
+                    <div class="item">
+                        <div class="image-container">
+                            <div class="movie-image">
+                                <a href="{{ movie.get_absolute_url }}">
+                                    <img src="{{ movie.image.url }}">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="movie-text">
+                            <a href="{{ movie.get_absolute_url }}" class="movie-title text-center">
+                                {{ movie.name }}
+                            </a>
+                        </div>
+                    </div>
+            {% endfor %}
+            </div>
+            <button aria-label="Previous" class="glider-prev">«</button>
+            <button aria-label="Next" class="glider-next">»</button>
+        </div>
+        {% endif %}
+        <h2>Нещодавно додані</h2>
+        <div id="glider-3" class="glider-contain">
+            <div class="glider">
+                {% for movie in movies %}
+                    <div class="item">
+                        <div class="image-container">
+                            <div class="movie-image">
+                                <a href="{{ movie.get_absolute_url }}">
+                                    <img src="{{ movie.image.url }}">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="movie-text">
+                            <a href="{{ movie.get_absolute_url }}" class="movie-title text-center">
+                                {{ movie.name }}
+                            </a>
+                        </div>
+                    </div>
+            {% endfor %}
+            </div>
+            <button aria-label="Previous" class="glider-prev">«</button>
+            <button aria-label="Next" class="glider-next">»</button>
+        </div>
+        {% if request.user.is_authenticated and recommendations %}
+        <h2>Рекомендації для вас</h2>
+        <div id="glider-4" class="glider-contain">
+            <div class="glider">
+                {% for movie in recommendations %}
+                    <div class="item">
+                        <div class="image-container">
+                            <div class="movie-image">
+                                <a href="{{ movie.get_absolute_url }}">
+                                    <img src="{{ movie.image.url }}">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="movie-text">
+                            <a href="{{ movie.get_absolute_url }}" class="movie-title text-center">
+                                {{ movie.name }}
+                            </a>
+                        </div>
+                    </div>
+            {% endfor %}
+            </div>
+            <button aria-label="Previous" class="glider-prev">«</button>
+            <button aria-label="Next" class="glider-next">»</button>
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}

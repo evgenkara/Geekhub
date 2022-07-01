@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load embed_video_tags %}
+{% load ratings %}
+{% block title %}{{ movie.name }}{% endblock %}
+{% block content %}
+    <div class="movie-detail">
+        <h1>{{ movie.name }}</h1>
+        <div>
+            <a href="{{ movie.get_absolute_url }}" class="soon-media d-flex flex-row justify-content-start">
+                <img src="{{movie.image.url}}" class="d-flex justify-content-start">
+                <div class="trailer d-flex">
+                    {% if movie.trailer %}
+                        {% video movie.trailer '100% x 100%' is_secure=True %}
+                    {% endif %}
+                </div>
+            </a>
+        </div>
+        {% if request.user.is_authenticated %}
+            {% if movie not in user.profile.watchlist.all %}
+            <a href="{% url 'movies:watchlist_add' movie.id %}" role="button"
+               class="btn btn-secondary">+Додати у вотчліст</a>
+            {% else %}
+                <a href="{% url 'movies:watchlist_remove' movie.id %}" role="button"
+                   class="btn btn-secondary">-Видалити з вотчліста</a>
+            {% endif %}
+        {% endif %}
+        <div class="categories my-3">
+            {% for category in  movie.category.all %}{{ area }}
+                <a class="d-inline rounded-pill border border-white text-center p-2 me-2"
+                   href="{{ category.get_absolute_url }}">
+                    {{ category }}
+                </a>
+            {% endfor %}
+        </div>
+        <div class="mt-3""><p class="year">Рік виходу: {{ movie.year }}</p></div>
+        <div class="my-4"><p>{{ movie.description|linebreaks }}</p></div>
+
+        <div class="mt-2">{% ratings movie %}</div>
+        <h4>Коментарів: {{ comments.count }}</h4>
+        {% if comments.count >= 1 %}
+        <div class="col-md-8 card mb-4 bg-black">
+            <div class="comment-body card-body bg-black">
+            <!-- comments -->
+                {% for comment in comments %}
+                <div class="comments bg-dark">
+                    <p class="font-weight-bold">
+                        {{ comment.name }}
+                        <span class=" text-muted font-weight-normal">
+                            {{ comment.created_on }}
+                        </span>
+                    </p>
+                    {{ comment.body | linebreaks }}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if request.user.is_authenticated %}
+        <div class="mb-2 mt-3 bg-black">
+            <div class="bg-black">
+                {% if new_comment %}
+                <div class="alert alert-success" role="alert">
+                    Ваш коментар очікує модерації
+                </div>
+                {% else %}
+                <h4>Залишити коментар</h4>
+                <form method="post">
+                    {% csrf_token %}
+                    <label class="small mb-1">Ваш коментар:</label>
+                    {{ comment_form.body }}
+                    <button type="submit" class="btn btn-warning  btn-lg">Відправити</button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}
