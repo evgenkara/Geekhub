@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Edit Profile{% endblock title %}
+{% block content %}
+    <div class="account-media row my-3 p-3">
+        <img class="rounded-circle account-img" src="{{ user.profile.avatar.url }} " style="cursor: pointer;"/>
+    </div>
+    {% if user_form.errors %}
+        <div class="alert alert-primary alert-dismissible" role="alert">
+            <div id="form_errors">
+                <a class="close"
+                   href="{{ request.path }}" data-dismiss="alert">&times;</a>
+                {% for key, value in user_form.errors.items %}
+                    <strong>{{ value }}</strong>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+    <div class="form-content">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label class="small mb-1">Ім'я користувача:</label>
+                            {{ user_form.username }}
+                        <label class="small mb-1">Електронна пошта:</label>
+                            {{ user_form.email }}
+                    </div>
+                    <div class="form-group">
+                        <a href="{% url 'accounts:password_change' %}">Змінити пароль</a>
+                        <label class="small mb-1">Змінити аватар:</label>
+                        {{ profile_form.avatar }}
+                    </div>
+                    <label class="small mb-1">Додаткова інформація:</label> {{ profile_form.info }}
+                </div>
+            </div>
+            <br><br>
+            <button type="submit" class="btn btn-dark btn-lg">Зберегти зміни</button>
+            <button type="reset" class="btn btn-dark btn-lg">Скинути</button>
+        </form>
+    </div>
+{% endblock content %}

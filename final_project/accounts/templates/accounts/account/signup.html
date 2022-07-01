@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+    Sign Up
+{% endblock %}
+{% block content %}
+    <h2>Реєстрація</h2>
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <p class="signup-field">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.help_text %}
+                <small style="display: none;">{{ field.help_text }}</small>
+                {% endif %}
+            {% for error in field.errors %}
+                <p class="form-err">{{ error }}</p>
+            {% endfor %}
+            </p>
+        {% endfor %}
+        <button type="submit" class="btn btn-lg btn-warning">Реєстрація</button>
+        <div>
+            <p>Вже є акаунт? <a href="{% url 'accounts:login' %}"><i>Увійти</i></a></p>
+        </div>
+    </form>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Profile Page{% endblock title %}
+{% block content %}
+    <div class="d-flex justify-content-start links">
+        <a class="me-3" href="{% url 'accounts:watchlist' %}">Вотчліст</a>
+        <a class="me-3" href="{% url 'accounts:ratings' %}">Оцінки</a>
+        <a class="me-3" href="{% url 'accounts:profile_edit' %}">Редагувати профіль</a>
+    </div>
+    <div class="d-flex justify-content-start">
+        <div class="account-media row my-3 p-3 align-items-start flex-column me-4">
+            <img class="rounded-circle account-img" src="{{ user.profile.avatar.url }}"/>
+        </div>
+
+        <div class="d-flex flex-column">
+            <h3 class="mb-4">{{ user.username }}</h3>
+            <p>Електронна пошта: {{ user.email }}</p>
+            <p>Додаткова інформація:</p>
+            <span>{{ user.profile.info }}</span>
+        </div>
+    </div>
+
+{% endblock content %}

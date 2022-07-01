@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+{% load socialaccount %}
+{% block title %}Sign in{% endblock %}
+{% block content %}
+    <h2>Вхід</h2>
+    <form action="" method="post">
+        {% csrf_token %}
+            {{ form.as_p }}
+        <input type="submit" class="btn btn-lg btn-warning" value="Увійти">
+    </form>
+    <div class="row google-login">
+        <div class="col-md-3">
+            <a class="btn btn-primary text-white" href="{% provider_login_url 'google' %}" role="button"
+               style="text-transform:none">
+            <img class="google-img" alt="Google sign-in"
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+            Увійти за допомогою Google
+            </a>
+        </div>
+    </div>
+    <a href="{% url 'accounts:password_reset' %}"><i>Забули пароль?</i></a>
+    <div class="reg">
+        <p>Немає акаунта? <a href="{% url 'accounts:signup' %}"><i>Реєстрація</i></a></p>
+    </div>
+{% endblock %}

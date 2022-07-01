@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}User Ratings{% endblock title %}
+{% load ratings %}
+{% block content %}
+    <main>
+        <h2>Мої оцінки</h2>
+        {% if movies|length > 0 %}
+        <div class="row row-cols-1 row-cols-md-3 g-3">
+            {% for movie in movies %}
+                <div class="col">
+                    <div class="ratings-card card bg-dark">
+                        <img src="{{ movie.image.url }}" class="card-img-top search-img" alt="...">
+                        <div class="card-body bg-dark">
+                            <div class="card-title text-light">
+                                <a class="rating-name mt-3 mb-1" href="{{ movie.get_absolute_url }}">{{ movie.name }}</a>
+                                <div class="rating">{% ratings movie icon_height=20 icon_width=20 %}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="pagination">
+            <span class="step-links d-flex flex-row align-content-center">
+                {% if movies.has_previous %}
+                    <a class="pagination-link" href="?page={{ movies.previous_page_number }}">&laquo; </a>
+                {% endif %}
+
+                <span class="current">
+                    Сторінка {{ movies.number }} з {{ movies.paginator.num_pages }}.
+                </span>
+
+                {% if movies.has_next %}
+                    <a class="pagination-link" href="?page={{ movies.next_page_number }}">&raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    {% else %}
+        <p>Ваш список оцінок пустий</p>
+    {% endif %}
+    </main>
+{% endblock content %}
