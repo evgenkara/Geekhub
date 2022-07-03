@@ -1,4 +1,4 @@
 # final_project
-Github final project
+GeekHub final project
 
 Heroku link: https://uamovies.herokuapp.com/
